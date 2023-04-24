@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UinfoMapper">
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">
+                and id= #{id}
+            </if>
+            <if test="username!=null and username!=''">
+                and username=#{username}
+            </if>
+            <if test="userpwd!=null and userpwd!=''">
+                and userpwd=#{userpwd}
+            </if>
+            <if test="name!=null and name!=''">
+                and name like '%${name}%'
+            </if>
+        </where>
+    </sql>
+    <select id="query" parameterType="java.util.Map" resultType="Uinfo">
+        select * from uinfo
+        <include refid="Where_Clause"/>
+        <if test="page">
+            limit #{offset} ,#{pageSize}
+        </if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map" resultType="Int">
+        select count(0) from uinfo
+        <include refid="Where_Clause"/>
+    </select>
+    <select id="queryUinfoById" parameterType="int" resultType="Uinfo">
+		select * from uinfo where id=${value}
+	</select>
+    <insert id="insertUinfo" useGeneratedKeys="true" keyProperty="id" parameterType="Uinfo">
+		insert into uinfo
+		(username,userpwd,name,tel,email)
+		values
+		(#{username},#{userpwd},#{name},#{tel},#{email});
+	</insert>
+    <update id="updateUinfo" parameterType="Uinfo">
+		update uinfo set
+		username=#{username},userpwd=#{userpwd},name=#{name},tel=#{tel},email=#{email}
+		where
+		id=#{id}	
+	</update>
+    <delete id="deleteUinfo" parameterType="int">
+	    delete from  uinfo where id=${value}
+	</delete>
+</mapper>
+ 

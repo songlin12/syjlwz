@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.PlinfoMapper">
+    <resultMap type="Plinfo" id="queryMap">
+        <id property="id" column="id"/>
+        <result property="zpid" column="zpid"/>
+        <result property="uid" column="uid"/>
+        <result property="plnr" column="plnr"/>
+        <result property="plhf" column="plhf"/>
+        <result property="plsj" column="plsj"/>
+        <association property="zpinfoVO" javaType="Zpinfo">
+            <id property="id" column="id"/>
+            <result property="uid" column="b_uid"/>
+            <result property="name" column="name"/>
+            <result property="qyid" column="qyid"/>
+            <result property="ztid" column="ztid"/>
+            <result property="xsid" column="xsid"/>
+            <result property="fujian" column="fujian"/>
+            <result property="cdate" column="cdate"/>
+        </association>
+        <association property="uinfoVO" javaType="Uinfo">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="userpwd" column="userpwd"/>
+            <result property="name" column="name"/>
+            <result property="tel" column="tel"/>
+            <result property="email" column="email"/>
+        </association>
+    </resultMap>
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">
+                and a.id= #{id}
+            </if>
+            <if test="zpid!=null and zpid!=0">
+                and a.zpid= #{zpid}
+            </if>
+            <if test="uid!=null and uid!=0">
+                and a.uid= #{uid}
+            </if>
+            <if test="zpname!=null and zpname!=''">
+                and b.name like '%${zpname}%'
+            </if>
+            <if test="zpuid!=null and zpuid!=0">
+                and b.uid  = #{zpuid}
+            </if>
+
+
+        </where>
+    </sql>
+    <select id="query" parameterType="java.util.Map" resultMap="queryMap">
+        select a.*,b.uid b_uid,b.name,b.qyid,b.ztid,b.xsid,b.fujian,b.cdate,c.username,c.userpwd,c.name,c.tel,c.email
+        from plinfo a left join zpinfo b on a.zpid=b.id left join uinfo c on a.uid=c.id
+        <include refid="Where_Clause"/>
+        <if test="page">
+            limit #{offset} ,#{pageSize}
+        </if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map" resultType="Int">
+        select count(*) nums from plinfo a left join zpinfo b on a.zpid=b.id left join uinfo c on a.uid=c.id
+        <include refid="Where_Clause"/>
+    </select>
+    <select id="queryPlinfoById" parameterType="int" resultType="Plinfo">
+		select * from plinfo where id=${value}
+	</select>
+    <insert id="insertPlinfo" useGeneratedKeys="true" keyProperty="id" parameterType="Plinfo">
+		insert into plinfo
+		(zpid,uid,plnr,plsj,plhf)
+		values
+		(#{zpid},#{uid},#{plnr},#{plsj},#{plhf});
+	</insert>
+    <update id="updatePlinfo" parameterType="Plinfo">
+		update plinfo set
+		zpid=#{zpid},uid=#{uid},plnr=#{plnr},plsj=#{plsj},plhf=#{plhf}
+		where
+		id=#{id}	
+	</update>
+    <delete id="deletePlinfo" parameterType="int">
+	    delete from  plinfo where id=${value}
+	</delete>
+</mapper>
+ 

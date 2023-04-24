@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ZpqyMapper">
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">
+                and id= #{id}
+            </if>
+            <if test="name!=null and name!=''">
+                and name like '%${name}%'
+            </if>
+        </where>
+    </sql>
+    <select id="query" parameterType="java.util.Map" resultType="Zpqy">
+        select * from zpqy
+        <include refid="Where_Clause"/>
+        <if test="page">
+            limit #{offset} ,#{pageSize}
+        </if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map" resultType="Int">
+        select count(0) from zpqy
+        <include refid="Where_Clause"/>
+    </select>
+    <select id="queryZpqyById" parameterType="int" resultType="Zpqy">
+		select * from zpqy where id=${value}
+	</select>
+    <insert id="insertZpqy" useGeneratedKeys="true" keyProperty="id" parameterType="Zpqy">
+		insert into zpqy
+		(name)
+		values
+		(#{name});
+	</insert>
+    <update id="updateZpqy" parameterType="Zpqy">
+		update zpqy set
+		name=#{name}
+		where
+		id=#{id}	
+	</update>
+    <delete id="deleteZpqy" parameterType="int">
+	    delete from  zpqy where id=${value}
+	</delete>
+</mapper>
+ 

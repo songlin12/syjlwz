@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AdminMapper">
+
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">and id= #{id}</if>
+            <if test="username!=null and username!=''">and username= #{username}</if>
+            <if test="userpw!=null and userpw!=''">and userpw= #{userpw}</if>
+            <if test="name!=null and name!=''">and name like '%${name}%'</if>
+
+        </where>
+    </sql>
+    <select id="query" parameterType="java.util.Map"
+            resultType="Admin">
+        select * from admin
+        <include refid="Where_Clause"/>
+        <if test="page">limit #{offset} ,#{pageSize}</if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map"
+            resultType="Int">
+        select count(0) from admin
+        <include refid="Where_Clause"/>
+    </select>
+    <select id="queryAdminById" parameterType="int"
+            resultType="Admin">
+		select * from admin where id=${value}
+	</select>
+    <insert id="insertAdmin" useGeneratedKeys="true" keyProperty="id"
+            parameterType="Admin">
+		insert into admin (username,userpw,name,tel) values
+		(#{username},#{userpw},#{name},#{tel});
+	</insert>
+    <update id="updateAdmin" parameterType="Admin">
+		update admin set
+		username=#{username},userpw=#{userpw},name=#{name},tel=#{tel}
+		where id=#{id}
+	</update>
+    <delete id="deleteAdmin" parameterType="int">
+		delete from admin where id=${value}
+	</delete>
+
+</mapper>
+
+ 

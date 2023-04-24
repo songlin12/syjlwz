@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ZpinfoMapper">
+    <resultMap type="Zpinfo" id="queryMap">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="name" column="name"/>
+        <result property="qyid" column="qyid"/>
+        <result property="ztid" column="ztid"/>
+        <result property="xsid" column="xsid"/>
+        <result property="fujian" column="fujian"/>
+        <result property="cdate" column="cdate"/>
+        <result property="state" column="state"/>
+        <association property="uinfoVO" javaType="Uinfo">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="userpwd" column="userpwd"/>
+            <result property="name" column="b_name"/>
+            <result property="tel" column="tel"/>
+            <result property="email" column="email"/>
+        </association>
+        <association property="zpqyVO" javaType="Zpqy">
+            <id property="id" column="id"/>
+            <result property="name" column="c_name"/>
+        </association>
+        <association property="zptypeVO" javaType="Zptype">
+            <id property="id" column="id"/>
+            <result property="name" column="d_name"/>
+        </association>
+        <association property="zpxsVO" javaType="Zpxs">
+            <id property="id" column="id"/>
+            <result property="name" column="e_name"/>
+        </association>
+    </resultMap>
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">
+                and a.id= #{id}
+            </if>
+            <if test="uid!=null and uid!=0">
+                and a.uid= #{uid}
+            </if>
+            <if test="qyid!=null and qyid!=0">
+                and a.qyid= #{qyid}
+            </if>
+            <if test="ztid!=null and ztid!=0">
+                and a.ztid= #{ztid}
+            </if>
+            <if test="xsid!=null and xsid!=0">
+                and a.xsid= #{xsid}
+            </if>
+
+            <if test="uname!=null and uname!=''">
+                and b.username like '%${uname}%'
+            </if>
+
+            <if test="qname!=null and qname!=''">
+                and (a.name like '%${qname}%' or b.username like '%${qname}%')
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="queryAll" parameterType="java.util.Map" resultMap="queryMap">
+        select a.*,b.username,b.userpwd,b.name b_name,b.tel,b.email,c.name c_name,d.name d_name,e.name e_name from
+        zpinfo a left join uinfo b on a.uid=b.id left join zpqy c on a.qyid=c.id left join zptype d on a.ztid=d.id left
+        join zpxs e on a.xsid=e.id
+        <include refid="Where_Clause"/>
+        order by a.id desc
+        <if test="page">
+            limit #{offset} ,#{pageSize}
+        </if>
+    </select>
+
+    <select id="queryByState" parameterType="java.util.Map" resultMap="queryMap">
+        select a.*,b.username,b.userpwd,b.name b_name,b.tel,b.email,c.name c_name,d.name d_name,e.name e_name from
+        zpinfo a left join uinfo b on a.uid=b.id left join zpqy c on a.qyid=c.id left join zptype d on a.ztid=d.id left
+        join zpxs e on a.xsid=e.id
+        <where>
+            a.state != 0
+            <if test="id!=null and id!=0">
+                and a.id= #{id}
+            </if>
+            <if test="uid!=null and uid!=0">
+                and a.uid= #{uid}
+            </if>
+            <if test="qyid!=null and qyid!=0">
+                and a.qyid= #{qyid}
+            </if>
+            <if test="ztid!=null and ztid!=0">
+                and a.ztid= #{ztid}
+            </if>
+            <if test="xsid!=null and xsid!=0">
+                and a.xsid= #{xsid}
+            </if>
+
+            <if test="uname!=null and uname!=''">
+                and b.username like '%${uname}%'
+            </if>
+
+            <if test="qname!=null and qname!=''">
+                and (a.name like '%${qname}%' or b.username like '%${qname}%')
+            </if>
+
+        </where>
+            order by a.id desc
+        <if test="page">
+            limit #{offset} ,#{pageSize}
+        </if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map" resultType="Int">
+        select count(*) nums from zpinfo a left join uinfo b on a.uid=b.id left join zpqy c on a.qyid=c.id left join
+        zptype d on a.ztid=d.id left join zpxs e on a.xsid=e.id
+        <include refid="Where_Clause"/>
+    </select>
+    <select id="queryZpinfoById" parameterType="int" resultType="Zpinfo">
+		select * from zpinfo where id=${value}
+	</select>
+    <insert id="insertZpinfo" useGeneratedKeys="true" keyProperty="id" parameterType="Zpinfo">
+		insert into zpinfo
+		(uid,name,qyid,ztid,xsid,fujian,cdate)
+		values
+		(#{uid},#{name},#{qyid},#{ztid},#{xsid},#{fujian},#{cdate});
+	</insert>
+    <update id="updateZpinfo" parameterType="Zpinfo">
+		update zpinfo set
+		uid=#{uid},name=#{name},qyid=#{qyid},ztid=#{ztid},xsid=#{xsid},fujian=#{fujian},cdate=#{cdate}
+		where
+		id=#{id}	
+	</update>
+    <delete id="deleteZpinfo" parameterType="int">
+	    delete from  zpinfo where id=${value}
+	</delete>
+</mapper>
+ 

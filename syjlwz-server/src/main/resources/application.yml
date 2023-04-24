@@ -1,0 +1,24 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /syjlwz
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/syjlwz?characterEncoding=UTF-8&&serverTimezone=GMT
+    username: root
+    password: 123456
+  servlet:
+    multipart:
+      enabled: true
+file:
+  server:
+    dir: D:\bishe\syjlwz\uploadFile\
+    path: /
+mybatis:
+  mapper-locations: classpath:/mybatis/mappers/*.xml
+  type-aliases-package: com.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
