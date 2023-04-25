@@ -66,7 +66,11 @@
         select a.*,b.username,b.userpwd,b.name b_name,b.tel,b.email,c.name c_name,d.name d_name,e.name e_name from
         zpinfo a left join uinfo b on a.uid=b.id left join zpqy c on a.qyid=c.id left join zptype d on a.ztid=d.id left
         join zpxs e on a.xsid=e.id
-        <include refid="Where_Clause"/>
+        <where>
+            <if test="id!=null and id!=0">
+                and a.id= #{id}
+            </if>
+        </where>
         order by a.id desc
         <if test="page">
             limit #{offset} ,#{pageSize}
