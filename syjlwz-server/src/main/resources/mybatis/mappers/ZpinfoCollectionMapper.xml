@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ZpinfoCollectionMapper">
+
+    <resultMap id="BaseResultMap" type="com.model.ZpinfoCollection">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="zpid" column="zpid" jdbcType="INTEGER"/>
+            <result property="uid" column="uid" jdbcType="INTEGER"/>
+            <result property="cdate" column="cdate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,zpid,uid,
+        cdate
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zpinfo_collection
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+    <select id="selectByUidAndZpid" resultType="com.model.ZpinfoCollection">
+        select * from zpinfo_collection where uid = #{uid} and zpid = #{zpid}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from zpinfo_collection
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.model.ZpinfoCollection" useGeneratedKeys="true">
+        insert into zpinfo_collection
+        ( id,zpid,uid
+        ,cdate)
+        values (#{id,jdbcType=INTEGER},#{zpid,jdbcType=INTEGER},#{uid,jdbcType=INTEGER}
+        ,#{cdate,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.model.ZpinfoCollection" useGeneratedKeys="true">
+        insert into zpinfo_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="zpid != null">zpid,</if>
+                <if test="uid != null">uid,</if>
+                <if test="cdate != null">cdate,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="zpid != null">#{zpid,jdbcType=INTEGER},</if>
+                <if test="uid != null">#{uid,jdbcType=INTEGER},</if>
+                <if test="cdate != null">#{cdate,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.model.ZpinfoCollection">
+        update zpinfo_collection
+        <set>
+                <if test="zpid != null">
+                    zpid = #{zpid,jdbcType=INTEGER},
+                </if>
+                <if test="uid != null">
+                    uid = #{uid,jdbcType=INTEGER},
+                </if>
+                <if test="cdate != null">
+                    cdate = #{cdate,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.model.ZpinfoCollection">
+        update zpinfo_collection
+        set 
+            zpid =  #{zpid,jdbcType=INTEGER},
+            uid =  #{uid,jdbcType=INTEGER},
+            cdate =  #{cdate,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

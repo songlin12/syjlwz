@@ -1,8 +1,12 @@
 package com.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.mapper.ZpinfoCollectionMapper;
 import com.model.Zpinfo;
+import com.model.ZpinfoCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,8 @@ public class ZpinfoServiceImpl implements ZpinfoService {
     @Autowired
     private ZpinfoMapper zpinfoMapper;
 
+    @Autowired
+    private ZpinfoCollectionMapper zpinfoCollectionMapper;
     /**
      * 查询照片信息记录数
      *
@@ -120,5 +126,18 @@ public class ZpinfoServiceImpl implements ZpinfoService {
      */
     public Zpinfo queryZpinfoById(int id) throws Exception {
         return zpinfoMapper.queryZpinfoById(id);
+    }
+
+    @Override
+    public int addCollection(ZpinfoCollection zpinfoCollection) {
+        Integer uid = zpinfoCollection.getUid();
+        Integer zpid = zpinfoCollection.getZpid();
+        ZpinfoCollection zc =zpinfoCollectionMapper.selectByUidAndZpid(uid,zpid);
+        if (zc!=null){
+            return zpinfoCollectionMapper.updateByPrimaryKeySelective(zpinfoCollection);
+        }else {
+            zpinfoCollection.setCdate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            return zpinfoCollectionMapper.insert(zpinfoCollection);
+        }
     }
 }

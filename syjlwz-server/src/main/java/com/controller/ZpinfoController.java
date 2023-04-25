@@ -227,4 +227,24 @@ public class ZpinfoController {
         request.setAttribute("zpxsList", zpxsList);
         return Response.success(zpxsList);
     }
+
+    /**
+     * 审核作品信息
+     *
+     * @param zpinfo
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @PostMapping(value = "/addCollection")
+    @CrossOrigin
+    public Response addCollection(@RequestBody ZpinfoCollection zpinfoCollection, HttpServletRequest request) throws Exception {
+        try {
+            zpinfoService.addCollection(zpinfoCollection);
+        } catch (Exception e) {
+            return Response.error();
+        }
+        return Response.success();
+    }
 }

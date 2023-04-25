@@ -2,6 +2,7 @@ package com.service;
 
 import java.util.List;
 
+import com.model.ZpinfoCollection;
 import com.util.PageBean;
 import com.model.Zpinfo;
 
@@ -62,4 +63,6 @@ public interface ZpinfoService {
      * @return
      */
     public Zpinfo queryZpinfoById(int id) throws Exception;
+
+    public int addCollection(ZpinfoCollection zpinfoCollection);
 }
