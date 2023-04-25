@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import static java.lang.Boolean.FALSE;
+
 /**
  * 照片信息Controller接口类
  */
@@ -82,17 +84,25 @@ public class ZpinfoController {
      */
     @PostMapping("/get")
     @CrossOrigin
-    public Response<Zpinfo> get(@RequestParam Integer id,HttpServletRequest request) throws Exception {
+    public Response<Zpinfo> get(@RequestBody Zpinfo zp,HttpServletRequest request) throws Exception {
 
         Zpinfo zpinfo = new Zpinfo();
-        zpinfo.setId(id);
+        zpinfo.setId(zp.getId());
+        zpinfo.setUid(zp.getUid());
         List<Zpinfo> zpinfoList = zpinfoService.queryZpinfoList(zpinfo, null);
 
 
         zpinfo = zpinfoList.get(0);
+        ZpinfoCollection zpinfoCollection = zpinfoService.selectByUidAndZpid(zp.getUid(), zp.getId());
+        if (zpinfoCollection!=null){
+            zpinfo.setColllectionFlag(true);
+        }else {
+            zpinfo.setColllectionFlag(false);
+        }
+
 
         Plinfo plinfo = new Plinfo();
-        plinfo.setZpid(id);
+        plinfo.setZpid(zp.getId());
         List<Plinfo> plinfos = plinfoService.queryPlinfoList(plinfo,null);
         zpinfo.setPlist(plinfos);
         return Response.success(zpinfo);
@@ -229,7 +239,7 @@ public class ZpinfoController {
     }
 
     /**
-     * 审核作品信息
+     * 添加收藏信息
      *
      * @param zpinfo
      * @param request

@@ -46,6 +46,11 @@ public class Zpinfo {
      * 作品状态
      */
     private int state;
+
+    /**
+     * 收藏状态
+     */
+    private Boolean colllectionFlag;
     private String uname;
     private Uinfo uinfoVO;
     private Zpqy zpqyVO;
@@ -180,5 +185,13 @@ public class Zpinfo {
 
     public void setZpxsVO(Zpxs zpxsVO) {
         this.zpxsVO = zpxsVO;
+    }
+
+    public Boolean getColllectionFlag() {
+        return colllectionFlag;
+    }
+
+    public void setColllectionFlag(Boolean colllectionFlag) {
+        this.colllectionFlag = colllectionFlag;
     }
 }

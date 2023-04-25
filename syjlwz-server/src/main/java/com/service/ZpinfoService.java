@@ -64,5 +64,7 @@ public interface ZpinfoService {
      */
     public Zpinfo queryZpinfoById(int id) throws Exception;
 
+    public ZpinfoCollection selectByUidAndZpid(int uid,int zpid);
+
     public int addCollection(ZpinfoCollection zpinfoCollection);
 }

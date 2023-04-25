@@ -124,8 +124,13 @@ public class ZpinfoServiceImpl implements ZpinfoService {
      * @param id
      * @return
      */
+    @Override
     public Zpinfo queryZpinfoById(int id) throws Exception {
         return zpinfoMapper.queryZpinfoById(id);
+    }
+    @Override
+    public ZpinfoCollection selectByUidAndZpid(int uid,int zpid){
+        return  zpinfoCollectionMapper.selectByUidAndZpid(uid,zpid);
     }
 
     @Override
