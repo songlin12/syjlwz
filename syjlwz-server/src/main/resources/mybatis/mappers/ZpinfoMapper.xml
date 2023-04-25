@@ -78,7 +78,7 @@
         zpinfo a left join uinfo b on a.uid=b.id left join zpqy c on a.qyid=c.id left join zptype d on a.ztid=d.id left
         join zpxs e on a.xsid=e.id
         <where>
-            a.state != 0
+            a.state = 1
             <if test="id!=null and id!=0">
                 and a.id= #{id}
             </if>
