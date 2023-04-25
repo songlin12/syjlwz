@@ -125,7 +125,7 @@
 	</insert>
     <update id="updateZpinfo" parameterType="Zpinfo">
 		update zpinfo set
-		uid=#{uid},name=#{name},qyid=#{qyid},ztid=#{ztid},xsid=#{xsid},fujian=#{fujian},cdate=#{cdate}
+		uid=#{uid},name=#{name},qyid=#{qyid},ztid=#{ztid},xsid=#{xsid},fujian=#{fujian},cdate=#{cdate},state=#{state}
 		where
 		id=#{id}	
 	</update>
