@@ -67,4 +67,6 @@ public interface ZpinfoService {
     public ZpinfoCollection selectByUidAndZpid(int uid,int zpid);
 
     public int addCollection(ZpinfoCollection zpinfoCollection);
+
+    public int removeCollection(ZpinfoCollection zpinfoCollection);
 }

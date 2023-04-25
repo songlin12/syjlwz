@@ -30,6 +30,9 @@
         delete from zpinfo_collection
         where  id = #{id,jdbcType=INTEGER} 
     </delete>
+    <delete id="deleteByUidAndZpid">
+        delete from zpinfo_collection where zpid =#{zpid} and uid =#{uid}
+    </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.model.ZpinfoCollection" useGeneratedKeys="true">
         insert into zpinfo_collection
         ( id,zpid,uid

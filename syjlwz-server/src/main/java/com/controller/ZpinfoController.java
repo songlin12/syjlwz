@@ -257,4 +257,24 @@ public class ZpinfoController {
         }
         return Response.success();
     }
+
+    /**
+     * 取消收藏信息
+     *
+     * @param zpinfo
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @PostMapping(value = "/removeCollection")
+    @CrossOrigin
+    public Response removeCollection(@RequestBody ZpinfoCollection zpinfoCollection, HttpServletRequest request) throws Exception {
+        try {
+            zpinfoService.removeCollection(zpinfoCollection);
+        } catch (Exception e) {
+            return Response.error();
+        }
+        return Response.success();
+    }
 }

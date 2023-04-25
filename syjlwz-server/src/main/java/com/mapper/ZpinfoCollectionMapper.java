@@ -24,4 +24,6 @@ public interface ZpinfoCollectionMapper {
     int updateByPrimaryKey(ZpinfoCollection record);
 
     ZpinfoCollection selectByUidAndZpid(@Param("uid") Integer uid, @Param("zpid")Integer zpid);
+
+    void deleteByUidAndZpid(@Param("uid") Integer uid, @Param("zpid") Integer zpid);
 }

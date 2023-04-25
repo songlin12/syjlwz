@@ -145,4 +145,17 @@ public class ZpinfoServiceImpl implements ZpinfoService {
             return zpinfoCollectionMapper.insert(zpinfoCollection);
         }
     }
+
+    @Override
+    public int removeCollection(ZpinfoCollection zpinfoCollection) {
+        Integer uid = zpinfoCollection.getUid();
+        Integer zpid = zpinfoCollection.getZpid();
+        ZpinfoCollection zc =zpinfoCollectionMapper.selectByUidAndZpid(uid,zpid);
+        if (zc!=null) {
+            zpinfoCollectionMapper.deleteByUidAndZpid(uid,zpid);
+            return 1;
+        }else {
+            return 0;
+        }
+    }
 }
